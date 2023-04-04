@@ -22,13 +22,73 @@
  * SOFTWARE.
  */
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gridpad/gridpad_cells.dart';
+
+class Cell {
+  final Widget child;
+  final int row;
+  final int column;
+  final int rowSpan;
+  final int columnSpan;
+  final bool _implicitly;
+
+  const Cell({
+    required this.row,
+    required this.column,
+    this.rowSpan = 1,
+    this.columnSpan = 1,
+    required this.child,
+  }) : _implicitly = false;
+
+  const Cell.explicit({
+    this.rowSpan = 1,
+    this.columnSpan = 1,
+    required this.child,
+  })  : _implicitly = true,
+        row = 0,
+        column = 0;
+}
+
+class _GridPadDelegate extends MultiChildLayoutDelegate {
+  final GridPadCells gridPadCells;
+
+  _GridPadDelegate(this.gridPadCells);
+
+  @override
+  void performLayout(Size size) {}
+
+  @override
+  bool shouldRelayout(covariant _GridPadDelegate oldDelegate) {
+    // First - do fast check (only count), after - full comparing
+    return gridPadCells.rowCount != oldDelegate.gridPadCells.rowCount ||
+        gridPadCells.columnCount != oldDelegate.gridPadCells.columnCount ||
+        gridPadCells != oldDelegate.gridPadCells;
+  }
+}
 
 class GridPad extends StatelessWidget {
-  const GridPad({Key? key}) : super(key: key);
+  final GridPadCells gridPadCells;
+  final List<Cell> children;
+
+  const GridPad({
+    Key? key,
+    required this.gridPadCells,
+    required this.children,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return CustomMultiChildLayout(
+      delegate: _GridPadDelegate(gridPadCells),
+      children: <Widget>[
+        for (var i = 0; i < children.length; i++)
+          LayoutId(
+            id: i,
+            child: children[i].child,
+          ),
+      ],
+    );
   }
 }
