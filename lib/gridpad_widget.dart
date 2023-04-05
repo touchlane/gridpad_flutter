@@ -49,6 +49,44 @@ class Cell {
   })  : _implicitly = true,
         row = 0,
         column = 0;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Cell &&
+          runtimeType == other.runtimeType &&
+          child == other.child &&
+          row == other.row &&
+          column == other.column &&
+          rowSpan == other.rowSpan &&
+          columnSpan == other.columnSpan &&
+          _implicitly == other._implicitly;
+
+  @override
+  int get hashCode =>
+      child.hashCode ^
+      row.hashCode ^
+      column.hashCode ^
+      rowSpan.hashCode ^
+      columnSpan.hashCode ^
+      _implicitly.hashCode;
+
+  Cell copyWith({
+    Widget? child,
+    int? row,
+    int? column,
+    int? rowSpan,
+    int? columnSpan,
+    bool? implicitly,
+  }) {
+    return Cell(
+      child: child ?? this.child,
+      row: row ?? this.row,
+      column: column ?? this.column,
+      rowSpan: rowSpan ?? this.rowSpan,
+      columnSpan: columnSpan ?? this.columnSpan,
+    );
+  }
 }
 
 class _GridPadDelegate extends MultiChildLayoutDelegate {
@@ -91,4 +129,27 @@ class GridPad extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Stores information about the position and size of the cell
+/// in the parent bounds.
+class _CellPlaceInfo {
+  /// x position.
+  final double x;
+
+  /// y position.
+  final double y;
+
+  /// Cell width.
+  final double width;
+
+  /// Cell height.
+  final double height;
+
+  const _CellPlaceInfo({
+    required this.x,
+    required this.y,
+    required this.width,
+    required this.height,
+  });
 }
