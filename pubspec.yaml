@@ -1,4 +1,4 @@
-name: gridpad
+name: grid_pad
 description: GridPad Flutter layout
 version: 0.0.1
 homepage:
@@ -8,6 +8,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  collection: ^1.16.0
   flutter:
     sdk: flutter
 

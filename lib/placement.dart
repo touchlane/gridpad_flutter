@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:gridpad/gridpad_widget.dart';
 
 import 'gridpad_cells.dart';
 
@@ -31,40 +31,58 @@ import 'gridpad_cells.dart';
 ///
 /// There are two major types of settings here: the main axis of placement
 /// presented by the [mainAxis] property and the direction of placement
-/// presented by [horizontalDirection] and [verticalDirection] properties.
+/// presented by [horizontalPolicy] and [verticalPolicy] properties.
 ///
 /// The [mainAxis] property describes which axis would be used to find
 /// the next position. For example, [Axis.horizontal] means that firstly
 /// next position will look in a current row and if there isn't a place
 /// for the item algorithm will move to the next row.
 ///
-/// The [horizontalDirection] property describes the direction for choosing
+/// The [horizontalPolicy] property describes the direction for choosing
 /// the next item on the horizontal axis: left or right side,
 /// depending on LTR or RTL settings.
 ///
-/// The [verticalDirection] property describes the direction for choosing
+/// The [verticalPolicy] property describes the direction for choosing
 /// the next item on the vertical axis: above or below.
 class GridPadPlacementPolicy {
+  static const GridPadPlacementPolicy defaultPolicy =
+      GridPadPlacementPolicy._anchor(
+    mainAxis: Axis.horizontal,
+    horizontalPolicy: HorizontalPolicy.startEnd,
+    verticalPolicy: VerticalPolicy.topBottom,
+    anchor: GridPadSpanAnchor(
+      horizontal: HorizontalAnchor.start,
+      vertical: VerticalAnchor.top,
+    ),
+  );
+
   /// the main axis for selecting the next location
   final Axis mainAxis;
 
   /// horizontal placement policy
-  final HorizontalDirection horizontalDirection;
+  final HorizontalPolicy horizontalPolicy;
 
   /// vertical placement policy
-  final VerticalDirection verticalDirection;
+  final VerticalPolicy verticalPolicy;
 
   /// Anchor for spanned cells.
   final GridPadSpanAnchor anchor;
 
   GridPadPlacementPolicy({
     this.mainAxis = Axis.horizontal,
-    this.horizontalDirection = HorizontalDirection.startEnd,
-    this.verticalDirection = VerticalDirection.topBottom,
+    this.horizontalPolicy = HorizontalPolicy.startEnd,
+    this.verticalPolicy = VerticalPolicy.topBottom,
   }) : anchor = GridPadSpanAnchor._ofDirection(
-          horizontalDirection,
-          verticalDirection,
+          horizontalPolicy,
+          verticalPolicy,
         );
+
+  const GridPadPlacementPolicy._anchor({
+    required this.mainAxis,
+    required this.horizontalPolicy,
+    required this.verticalPolicy,
+    required this.anchor,
+  });
 
   @override
   bool operator ==(Object other) =>
@@ -72,23 +90,23 @@ class GridPadPlacementPolicy {
       other is GridPadPlacementPolicy &&
           runtimeType == other.runtimeType &&
           mainAxis == other.mainAxis &&
-          horizontalDirection == other.horizontalDirection &&
-          verticalDirection == other.verticalDirection &&
+          horizontalPolicy == other.horizontalPolicy &&
+          verticalPolicy == other.verticalPolicy &&
           anchor == other.anchor;
 
   @override
   int get hashCode =>
       mainAxis.hashCode ^
-      horizontalDirection.hashCode ^
-      verticalDirection.hashCode ^
+      horizontalPolicy.hashCode ^
+      verticalPolicy.hashCode ^
       anchor.hashCode;
 }
 
 /// Horizontal placement policy.
-enum HorizontalDirection { startEnd, endStart }
+enum HorizontalPolicy { startEnd, endStart }
 
 /// Vertical placement policy.
-enum VerticalDirection { topBottom, bottomTop }
+enum VerticalPolicy { topBottom, bottomTop }
 
 /// Anchor for spanned cells.
 class GridPadSpanAnchor {
@@ -112,24 +130,24 @@ class GridPadSpanAnchor {
   int get hashCode => horizontal.hashCode ^ vertical.hashCode;
 
   static GridPadSpanAnchor _ofDirection(
-    HorizontalDirection horizontal,
-    VerticalDirection vertical,
+    HorizontalPolicy horizontal,
+    VerticalPolicy vertical,
   ) {
     final HorizontalAnchor horizontalAnchor;
     switch (horizontal) {
-      case HorizontalDirection.startEnd:
+      case HorizontalPolicy.startEnd:
         horizontalAnchor = HorizontalAnchor.start;
         break;
-      case HorizontalDirection.endStart:
+      case HorizontalPolicy.endStart:
         horizontalAnchor = HorizontalAnchor.end;
         break;
     }
     final VerticalAnchor verticalAnchor;
     switch (vertical) {
-      case VerticalDirection.topBottom:
+      case VerticalPolicy.topBottom:
         verticalAnchor = VerticalAnchor.top;
         break;
-      case VerticalDirection.bottomTop:
+      case VerticalPolicy.bottomTop:
         verticalAnchor = VerticalAnchor.bottom;
         break;
     }
@@ -145,20 +163,173 @@ enum HorizontalAnchor { start, end }
 enum VerticalAnchor { top, bottom }
 
 abstract class PlacementStrategy {
-  final GridPadPlacementPolicy placementPolicy;
-  final List<Cell> _cells = [];
+  final GridPadCells _cells;
+  final GridPadPlacementPolicy _placementPolicy;
+  final List<GridPadContent> _content = [];
 
-  PlacementStrategy({
-    required this.placementPolicy,
+  List<GridPadContent> get content => _content.toList();
+
+  PlacementStrategy(this._cells, this._placementPolicy);
+
+  placeImplicitly({
+    required int rowSpan,
+    required int columnSpan,
+    required Widget content,
   });
 
-  placeExplicitly(Cell cell) {
-    final anchor = placementPolicy.anchor;
+  placeExplicitly({
+    required int row,
+    required int column,
+    required int rowSpan,
+    required int columnSpan,
+    required Widget content,
+  }) {
+    final anchor = _placementPolicy.anchor;
+    final rowOutside = _cells.isRowOutsideOfGrid(row, rowSpan, anchor);
+    final columnOutside = _cells.isRowOutsideOfGrid(column, columnSpan, anchor);
+    if (rowOutside || columnOutside) {
+      onSkipped(
+        row: row,
+        column: column,
+        rowSpan: rowSpan,
+        columnSpan: columnSpan,
+      );
+    } else {
+      onPlaced(
+        left: anchor.leftBound(column, columnSpan),
+        top: anchor.topBound(row, rowSpan),
+        right: anchor.rightBound(column, columnSpan),
+        bottom: anchor.bottomBound(row, rowSpan),
+        content: content,
+      );
+    }
+  }
+
+  onSkipped({
+    required int row,
+    required int column,
+    required int rowSpan,
+    required int columnSpan,
+  }) {}
+
+  onPlaced({
+    required int left,
+    required int top,
+    required int right,
+    required int bottom,
+    required Widget content,
+  }) {
+    _content.add(GridPadContent(
+      left: left,
+      top: top,
+      right: right,
+      bottom: bottom,
+      content: content,
+    ));
+  }
+
+  int findCurrentRow(
+    GridPadCells cells,
+    GridPadPlacementPolicy placementPolicy,
+    GridPadContent? lastItem,
+  ) {
+    if (lastItem == null) {
+      return cells.firstRow(placementPolicy);
+    }
+    switch (placementPolicy.verticalPolicy) {
+      case VerticalPolicy.topBottom:
+        return lastItem.top;
+      case VerticalPolicy.bottomTop:
+        return lastItem.bottom;
+    }
+  }
+
+  int findCurrentColumn(
+    GridPadCells cells,
+    GridPadPlacementPolicy placementPolicy,
+    GridPadContent? lastItem,
+  ) {
+    if (lastItem == null) {
+      return cells.firstColumn(placementPolicy);
+    }
+    switch (placementPolicy.horizontalPolicy) {
+      case HorizontalPolicy.startEnd:
+        return lastItem.left;
+      case HorizontalPolicy.endStart:
+        return lastItem.right;
+    }
   }
 }
 
-class GridPlacementStrategy {
+class GridPlacementStrategy extends PlacementStrategy {
+  GridPlacementStrategy(super.cells, super.placementPolicy);
 
+  @override
+  placeImplicitly({
+    required int rowSpan,
+    required int columnSpan,
+    required Widget content,
+  }) {
+    final anchor = _placementPolicy.anchor;
+    final lastItem = _content.lastOrNull;
+    int row;
+    int column;
+    switch (_placementPolicy.mainAxis) {
+      case Axis.horizontal:
+        row = findCurrentRow(_cells, _placementPolicy, lastItem);
+        column = findNextColumn(_cells, _placementPolicy, lastItem);
+        if (_cells.isColumnOutsideOfGrid(column, columnSpan, anchor)) {
+          column = _cells.firstColumn(_placementPolicy);
+          row = findNextRow(_cells, _placementPolicy, lastItem);
+        }
+        break;
+      case Axis.vertical:
+        column = findCurrentColumn(_cells, _placementPolicy, lastItem);
+        row = findNextRow(_cells, _placementPolicy, lastItem);
+        if (_cells.isRowOutsideOfGrid(row, rowSpan, anchor)) {
+          row = _cells.firstRow(_placementPolicy);
+          column = findNextColumn(_cells, _placementPolicy, lastItem);
+        }
+        break;
+    }
+    placeExplicitly(
+      row: row,
+      column: column,
+      rowSpan: rowSpan,
+      columnSpan: columnSpan,
+      content: content,
+    );
+  }
+
+  int findNextRow(
+    GridPadCells cells,
+    GridPadPlacementPolicy placementPolicy,
+    GridPadContent? lastItem,
+  ) {
+    final lastRow = findCurrentRow(cells, placementPolicy, lastItem);
+    final lastFowSpan = lastItem?.rowSpan ?? 0;
+    switch (placementPolicy.verticalPolicy) {
+      case VerticalPolicy.topBottom:
+        return lastRow + lastFowSpan;
+      case VerticalPolicy.bottomTop:
+        return lastRow - lastFowSpan;
+    }
+  }
+
+  int findNextColumn(
+    GridPadCells cells,
+    GridPadPlacementPolicy placementPolicy,
+    GridPadContent? lastItem,
+  ) {
+    final lastColumn = findCurrentColumn(cells, placementPolicy, lastItem);
+    final lastColumnSpan = lastItem?.columnSpan ?? 0;
+    switch (placementPolicy.horizontalPolicy) {
+      case HorizontalPolicy.startEnd:
+        return lastColumn + lastColumnSpan;
+      case HorizontalPolicy.endStart:
+        return lastColumn - lastColumnSpan;
+    }
+  }
 }
 
 class GridPadContent {
@@ -184,10 +355,10 @@ extension GridPadCellsExt on GridPadCells {
   /// Returns the first row index for a specific grid,
   /// depends on the [placementPolicy].
   int firstRow(GridPadPlacementPolicy placementPolicy) {
-    switch (placementPolicy.verticalDirection) {
-      case VerticalDirection.topBottom:
+    switch (placementPolicy.verticalPolicy) {
+      case VerticalPolicy.topBottom:
         return 0;
-      case VerticalDirection.bottomTop:
+      case VerticalPolicy.bottomTop:
         return rowCount - 1;
     }
   }
@@ -195,10 +366,10 @@ extension GridPadCellsExt on GridPadCells {
   /// Returns the first column index for a specific grid,
   /// depends on the [placementPolicy].
   int firstColumn(GridPadPlacementPolicy placementPolicy) {
-    switch (placementPolicy.horizontalDirection) {
-      case HorizontalDirection.startEnd:
+    switch (placementPolicy.horizontalPolicy) {
+      case HorizontalPolicy.startEnd:
         return 0;
-      case HorizontalDirection.endStart:
+      case HorizontalPolicy.endStart:
         return columnCount - 1;
     }
   }

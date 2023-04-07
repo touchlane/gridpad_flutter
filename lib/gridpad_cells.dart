@@ -57,7 +57,7 @@ class GridPadCells {
   GridPadCells.gridSize({required int rowCount, required int columnCount})
       : this.sizes(
           rowSizes: WeightExtension.weightSame(rowCount, 1),
-          columnSizes: WeightExtension.weightSame(rowCount, 1),
+          columnSizes: WeightExtension.weightSame(columnCount, 1),
         );
 
   @override

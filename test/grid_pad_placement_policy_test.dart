@@ -23,7 +23,7 @@
  */
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gridpad/placement.dart';
+import 'package:grid_pad/placement.dart';
 
 void main() {
   test('Test anchor default initialization', () {
@@ -38,8 +38,8 @@ void main() {
 
   test('Test anchor top start', () {
     final policy = GridPadPlacementPolicy(
-      horizontalDirection: HorizontalDirection.startEnd,
-      verticalDirection: VerticalDirection.topBottom,
+      horizontalPolicy: HorizontalPolicy.startEnd,
+      verticalPolicy: VerticalPolicy.topBottom,
     );
     expect(
         policy.anchor,
@@ -51,8 +51,8 @@ void main() {
 
   test('Test anchor top end', () {
     final policy = GridPadPlacementPolicy(
-      horizontalDirection: HorizontalDirection.endStart,
-      verticalDirection: VerticalDirection.topBottom,
+      horizontalPolicy: HorizontalPolicy.endStart,
+      verticalPolicy: VerticalPolicy.topBottom,
     );
     expect(
         policy.anchor,
@@ -64,8 +64,8 @@ void main() {
 
   test('Test anchor bottom end', () {
     final policy = GridPadPlacementPolicy(
-      horizontalDirection: HorizontalDirection.endStart,
-      verticalDirection: VerticalDirection.bottomTop,
+      horizontalPolicy: HorizontalPolicy.endStart,
+      verticalPolicy: VerticalPolicy.bottomTop,
     );
     expect(
         policy.anchor,
@@ -77,8 +77,8 @@ void main() {
 
   test('Test anchor bottom start', () {
     final policy = GridPadPlacementPolicy(
-      horizontalDirection: HorizontalDirection.startEnd,
-      verticalDirection: VerticalDirection.bottomTop,
+      horizontalPolicy: HorizontalPolicy.startEnd,
+      verticalPolicy: VerticalPolicy.bottomTop,
     );
     expect(
         policy.anchor,
