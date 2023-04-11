@@ -84,23 +84,27 @@ class GridPadCellsBuilder {
         _columnSizes = WeightExtension.weightSame(columnCount, 1);
 
   /// Set [size] for specific row [index].
-  rowSize(int index, GridPadCellSize size) {
+  GridPadCellsBuilder rowSize(int index, GridPadCellSize size) {
     _rowSizes[index] = size;
+    return this;
   }
 
   /// Set [size] for all rows.
-  rowsSize(GridPadCellSize size) {
+  GridPadCellsBuilder rowsSize(GridPadCellSize size) {
     _rowSizes.fillRange(0, _rowSizes.length, size);
+    return this;
   }
 
   /// Set [size] for specific column [index].
-  columnSize(int index, GridPadCellSize size) {
+  GridPadCellsBuilder columnSize(int index, GridPadCellSize size) {
     _columnSizes[index] = size;
+    return this;
   }
 
   /// Set [size] for all columns.
-  columnsSize(GridPadCellSize size) {
+  GridPadCellsBuilder columnsSize(GridPadCellSize size) {
     _columnSizes.fillRange(0, _columnSizes.length, size);
+    return this;
   }
 
   GridPadCells build() {

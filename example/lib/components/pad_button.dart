@@ -39,6 +39,46 @@ class LargeTextPadButton extends StatelessWidget {
   }
 }
 
+class MediumTextPadButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
+
+  const MediumTextPadButton(
+    this.text, {
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextPadButton(
+      text: text,
+      style: Theme.of(context).textTheme.headlineMedium,
+      onPressed: onPressed,
+    );
+  }
+}
+
+class SmallTextPadButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
+
+  const SmallTextPadButton(
+    this.text, {
+    Key? key,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextPadButton(
+      text: text,
+      style: Theme.of(context).textTheme.titleMedium,
+      onPressed: onPressed,
+    );
+  }
+}
+
 class TextPadButton extends StatelessWidget {
   final String text;
   final TextStyle? style;

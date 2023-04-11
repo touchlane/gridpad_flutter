@@ -27,25 +27,25 @@ import 'package:grid_pad/gridpad_cells.dart';
 
 void main() {
   test('Check equals(and hashCode for the same GridPadCells', () {
-    final left = (GridPadCellsBuilder(rowCount: 2, columnCount: 4)
-          ..columnSize(1, const Weight(2))
-          ..rowSize(0, const Fixed(24)))
+    final left = GridPadCellsBuilder(rowCount: 2, columnCount: 4)
+        .columnSize(1, const Weight(2))
+        .rowSize(0, const Fixed(24))
         .build();
-    final right = (GridPadCellsBuilder(rowCount: 2, columnCount: 4)
-          ..columnSize(1, const Weight(2))
-          ..rowSize(0, const Fixed(24)))
+    final right = GridPadCellsBuilder(rowCount: 2, columnCount: 4)
+        .columnSize(1, const Weight(2))
+        .rowSize(0, const Fixed(24))
         .build();
     expect(left.hashCode, right.hashCode);
     expect(left, right);
   });
 
   test('Check internal fields', () {
-    final cells = (GridPadCellsBuilder(rowCount: 2, columnCount: 4)
-          ..rowSize(0, const Weight(3))
-          ..rowSize(1, const Fixed(24))
-          ..columnSize(0, const Fixed(12))
-          ..columnSize(1, const Weight(2))
-          ..columnSize(2, const Fixed(10)))
+    final cells = GridPadCellsBuilder(rowCount: 2, columnCount: 4)
+        .rowSize(0, const Weight(3))
+        .rowSize(1, const Fixed(24))
+        .columnSize(0, const Fixed(12))
+        .columnSize(1, const Weight(2))
+        .columnSize(2, const Fixed(10))
         .build();
     expect(2, cells.rowCount);
     expect(4, cells.columnCount);
@@ -76,15 +76,17 @@ void main() {
 
   test('Check GridPadCellsBuilder methods', () {
     final actual = GridPadCellsBuilder(rowCount: 2, columnCount: 3)
-      ..rowSize(0, const Fixed(30))
-      ..rowSize(1, const Fixed(30))
-      ..columnSize(0, const Weight(2))
-      ..columnSize(1, const Weight(2))
-      ..columnSize(2, const Weight(2));
+        .rowSize(0, const Fixed(30))
+        .rowSize(1, const Fixed(30))
+        .columnSize(0, const Weight(2))
+        .columnSize(1, const Weight(2))
+        .columnSize(2, const Weight(2))
+        .build();
     final expected = GridPadCellsBuilder(rowCount: 2, columnCount: 3)
-      ..rowsSize(const Fixed(30))
-      ..columnsSize(const Weight(2));
-    expect(actual.build(), expected.build());
+        .rowsSize(const Fixed(30))
+        .columnsSize(const Weight(2))
+        .build();
+    expect(actual, expected);
   });
 
   test('Check extensions', () {
