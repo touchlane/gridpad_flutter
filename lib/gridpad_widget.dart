@@ -29,15 +29,16 @@ import 'package:flutter/widgets.dart';
 import 'gridpad_cells.dart';
 import 'placement.dart';
 
-class Cell {
-  final Widget child;
+class Cell extends StatelessWidget {
   final int row;
   final int column;
   final int rowSpan;
   final int columnSpan;
   final bool _implicitly;
+  final Widget child;
 
   const Cell({
+    Key? key,
     required this.row,
     required this.column,
     this.rowSpan = 1,
@@ -45,9 +46,11 @@ class Cell {
     required this.child,
   })  : _implicitly = false,
         assert(rowSpan > 0),
-        assert(columnSpan > 0);
+        assert(columnSpan > 0),
+        super(key: key);
 
   const Cell.explicit({
+    Key? key,
     this.rowSpan = 1,
     this.columnSpan = 1,
     required this.child,
@@ -55,44 +58,12 @@ class Cell {
         row = 0,
         column = 0,
         assert(rowSpan > 0),
-        assert(columnSpan > 0);
+        assert(columnSpan > 0),
+        super(key: key);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Cell &&
-          runtimeType == other.runtimeType &&
-          child == other.child &&
-          row == other.row &&
-          column == other.column &&
-          rowSpan == other.rowSpan &&
-          columnSpan == other.columnSpan &&
-          _implicitly == other._implicitly;
-
-  @override
-  int get hashCode =>
-      child.hashCode ^
-      row.hashCode ^
-      column.hashCode ^
-      rowSpan.hashCode ^
-      columnSpan.hashCode ^
-      _implicitly.hashCode;
-
-  Cell copyWith({
-    Widget? child,
-    int? row,
-    int? column,
-    int? rowSpan,
-    int? columnSpan,
-    bool? implicitly,
-  }) {
-    return Cell(
-      child: child ?? this.child,
-      row: row ?? this.row,
-      column: column ?? this.column,
-      rowSpan: rowSpan ?? this.rowSpan,
-      columnSpan: columnSpan ?? this.columnSpan,
-    );
+  Widget build(BuildContext context) {
+    return child;
   }
 }
 
@@ -134,7 +105,8 @@ class _GridPadDelegate extends MultiChildLayoutDelegate {
   @override
   bool shouldRelayout(covariant _GridPadDelegate oldDelegate) {
     // First - do fast check (only count), after - full comparing
-    return cells.rowCount != oldDelegate.cells.rowCount ||
+    return direction != oldDelegate.direction ||
+        cells.rowCount != oldDelegate.cells.rowCount ||
         cells.columnCount != oldDelegate.cells.columnCount ||
         cells != oldDelegate.cells;
   }
@@ -202,14 +174,20 @@ class GridPad extends StatelessWidget {
   GridPad({
     Key? key,
     required this.gridPadCells,
-    required List<Cell> children,
+    required List<Widget> children,
     this.placementPolicy = GridPadPlacementPolicy.defaultPolicy,
   })  : _placementStrategy = GridPlacementStrategy(
           gridPadCells,
           placementPolicy,
         ),
         super(key: key) {
-    for (var cell in children) {
+    for (var contentCell in children) {
+      final Cell cell;
+      if (contentCell is Cell) {
+        cell = contentCell;
+      } else {
+        cell = Cell.explicit(child: contentCell);
+      }
       if (cell._implicitly) {
         _placementStrategy.placeImplicitly(
           rowSpan: cell.rowSpan,
