@@ -99,8 +99,9 @@ class Cell {
 class _GridPadDelegate extends MultiChildLayoutDelegate {
   final GridPadCells cells;
   final List<GridPadContent> content;
+  final TextDirection direction;
 
-  _GridPadDelegate(this.cells, this.content);
+  _GridPadDelegate(this.cells, this.content, this.direction);
 
   @override
   void performLayout(Size size) {
@@ -119,7 +120,14 @@ class _GridPadDelegate extends MultiChildLayoutDelegate {
         BoxConstraints(maxHeight: maxHeight, maxWidth: maxWidth),
       );
       final cellPlace = cellPlaces[item.top][item.left];
-      positionChild(index, Offset(cellPlace.x, cellPlace.y));
+      if (direction == TextDirection.ltr) {
+        positionChild(index, Offset(cellPlace.x, cellPlace.y));
+      } else {
+        positionChild(
+          index,
+          Offset(size.width - cellPlace.x - cellPlace.width, cellPlace.y),
+        );
+      }
     });
   }
 
@@ -224,7 +232,11 @@ class GridPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomMultiChildLayout(
-      delegate: _GridPadDelegate(gridPadCells, _content),
+      delegate: _GridPadDelegate(
+        gridPadCells,
+        _content,
+        Directionality.of(context),
+      ),
       children: <Widget>[
         for (var i = 0; i < _content.length; i++)
           LayoutId(

@@ -3,6 +3,7 @@ import 'package:example/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:grid_pad/gridpad_cells.dart';
 import 'package:grid_pad/gridpad_widget.dart';
+import 'package:grid_pad/placement.dart';
 
 import 'components/engineering_calculator_pad.dart';
 import 'components/interactive_pin_pad.dart';
@@ -55,6 +56,16 @@ class ListOfPads extends StatelessWidget {
       CustomSizeBlueprintCard(),
       SimpleBlueprintCardWithContent(),
       SimpleBlueprintCardWithContentMixOrdering(),
+      SimpleBlueprintCardWithSpansOverlapped(),
+      SimpleBlueprintCardPolicyHorizontalSeTb(),
+      SimpleBlueprintCardPolicyHorizontalEsTb(),
+      SimpleBlueprintCardPolicyHorizontalSeBt(),
+      SimpleBlueprintCardPolicyHorizontalEsBt(),
+      SimpleBlueprintCardPolicyVerticalSeTb(),
+      SimpleBlueprintCardPolicyVerticalEsTb(),
+      SimpleBlueprintCardPolicyVerticalSeBt(),
+      SimpleBlueprintCardPolicyVerticalEsBt(),
+      SimpleBlueprintCardPolicyHorizontalSeTbRtl(),
     ]);
   }
 }
@@ -82,11 +93,13 @@ class PadCard extends StatelessWidget {
 
 class BlueprintCard extends StatelessWidget {
   final double ratio;
+  final String? title;
   final Widget child;
 
   const BlueprintCard({
     Key? key,
     this.ratio = 1,
+    this.title,
     required this.child,
   }) : super(key: key);
 
@@ -95,8 +108,47 @@ class BlueprintCard extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: AspectRatio(aspectRatio: ratio, child: child),
+        child: Column(
+          children: [
+            if (title != null)
+              Column(
+                children: [
+                  Text(
+                    title!,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 16)
+                ],
+              ),
+            AspectRatio(aspectRatio: ratio, child: child),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class WeightGrid extends StatelessWidget {
+  final int rowCount;
+  final int columnCount;
+
+  const WeightGrid({
+    Key? key,
+    required this.rowCount,
+    required this.columnCount,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridPad(
+      gridPadCells: GridPadCells.gridSize(
+        rowCount: rowCount,
+        columnCount: columnCount,
+      ),
+      children: [
+        for (var i = 0; i < rowCount * columnCount; i++)
+          const Cell.explicit(child: BlueprintBox())
+      ],
     );
   }
 }
@@ -188,21 +240,11 @@ class SimpleBlueprintCardWithContent extends StatelessWidget {
   Widget build(BuildContext context) {
     const rowCount = 3;
     const columnCount = 4;
-    const cellCount = rowCount * columnCount;
     return BlueprintCard(
       ratio: 1.5,
       child: Stack(
         children: [
-          GridPad(
-            gridPadCells: GridPadCells.gridSize(
-              rowCount: rowCount,
-              columnCount: columnCount,
-            ),
-            children: [
-              for (var i = 0; i < cellCount; i++)
-                const Cell.explicit(child: BlueprintBox())
-            ],
-          ),
+          const WeightGrid(rowCount: rowCount, columnCount: columnCount),
           GridPad(
             gridPadCells: GridPadCells.gridSize(
               rowCount: rowCount,
@@ -226,21 +268,11 @@ class SimpleBlueprintCardWithContentMixOrdering extends StatelessWidget {
   Widget build(BuildContext context) {
     const rowCount = 3;
     const columnCount = 4;
-    const cellCount = rowCount * columnCount;
     return BlueprintCard(
       ratio: 1.5,
       child: Stack(
         children: [
-          GridPad(
-            gridPadCells: GridPadCells.gridSize(
-              rowCount: rowCount,
-              columnCount: columnCount,
-            ),
-            children: [
-              for (var i = 0; i < cellCount; i++)
-                const Cell.explicit(child: BlueprintBox())
-            ],
-          ),
+          const WeightGrid(rowCount: rowCount, columnCount: columnCount),
           GridPad(
             gridPadCells: GridPadCells.gridSize(
               rowCount: rowCount,
@@ -261,6 +293,204 @@ class SimpleBlueprintCardWithContentMixOrdering extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SimpleBlueprintCardWithSpansOverlapped extends StatelessWidget {
+  const SimpleBlueprintCardWithSpansOverlapped({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const rowCount = 3;
+    const columnCount = 4;
+    return BlueprintCard(
+      ratio: 1.5,
+      child: Stack(
+        children: [
+          const WeightGrid(rowCount: rowCount, columnCount: columnCount),
+          GridPad(
+            gridPadCells: GridPadCells.gridSize(
+              rowCount: rowCount,
+              columnCount: columnCount,
+            ),
+            children: const [
+              Cell.explicit(
+                rowSpan: 3,
+                columnSpan: 2,
+                child: ContentBlueprintBox(text: '[0;0]\nSpan: 3x2'),
+              ),
+              Cell(
+                row: 2,
+                column: 1,
+                columnSpan: 3,
+                child:
+                    ContentBlueprintBox(text: '[2;1]\nSpan: 1x3, overlapped'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicy extends StatelessWidget {
+  final Axis mainAxis;
+  final HorizontalPolicy horizontalPolicy;
+  final VerticalPolicy verticalPolicy;
+
+  const SimpleBlueprintCardPolicy(
+      this.mainAxis, this.horizontalPolicy, this.verticalPolicy,
+      {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const rowCount = 3;
+    const columnCount = 4;
+    final TextDirection layoutDirection = Directionality.of(context);
+    return BlueprintCard(
+      ratio: 1.5,
+      title:
+          'LayoutDirection = $layoutDirection\nmainAxis = $mainAxis\nhorizontal = $horizontalPolicy\nvertical = $verticalPolicy',
+      child: Stack(
+        children: [
+          const WeightGrid(rowCount: rowCount, columnCount: columnCount),
+          GridPad(
+            gridPadCells: GridPadCells.gridSize(
+              rowCount: rowCount,
+              columnCount: columnCount,
+            ),
+            placementPolicy: GridPadPlacementPolicy(
+              mainAxis: mainAxis,
+              horizontalPolicy: horizontalPolicy,
+              verticalPolicy: verticalPolicy,
+            ),
+            children: [
+              for (var i = 0; i < rowCount * columnCount; i++)
+                Cell.explicit(child: ContentBlueprintBox(text: '$i')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyHorizontalSeTb extends StatelessWidget {
+  const SimpleBlueprintCardPolicyHorizontalSeTb({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.horizontal,
+      HorizontalPolicy.startEnd,
+      VerticalPolicy.topBottom,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyHorizontalSeTbRtl extends StatelessWidget {
+  const SimpleBlueprintCardPolicyHorizontalSeTbRtl({Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Directionality(
+      textDirection: TextDirection.rtl,
+      child: SimpleBlueprintCardPolicyHorizontalSeTb(),
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyHorizontalEsTb extends StatelessWidget {
+  const SimpleBlueprintCardPolicyHorizontalEsTb({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.horizontal,
+      HorizontalPolicy.endStart,
+      VerticalPolicy.topBottom,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyHorizontalSeBt extends StatelessWidget {
+  const SimpleBlueprintCardPolicyHorizontalSeBt({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.horizontal,
+      HorizontalPolicy.startEnd,
+      VerticalPolicy.bottomTop,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyHorizontalEsBt extends StatelessWidget {
+  const SimpleBlueprintCardPolicyHorizontalEsBt({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.horizontal,
+      HorizontalPolicy.endStart,
+      VerticalPolicy.bottomTop,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyVerticalSeTb extends StatelessWidget {
+  const SimpleBlueprintCardPolicyVerticalSeTb({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.vertical,
+      HorizontalPolicy.startEnd,
+      VerticalPolicy.topBottom,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyVerticalEsTb extends StatelessWidget {
+  const SimpleBlueprintCardPolicyVerticalEsTb({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.vertical,
+      HorizontalPolicy.endStart,
+      VerticalPolicy.topBottom,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyVerticalSeBt extends StatelessWidget {
+  const SimpleBlueprintCardPolicyVerticalSeBt({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.vertical,
+      HorizontalPolicy.startEnd,
+      VerticalPolicy.bottomTop,
+    );
+  }
+}
+
+class SimpleBlueprintCardPolicyVerticalEsBt extends StatelessWidget {
+  const SimpleBlueprintCardPolicyVerticalEsBt({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const SimpleBlueprintCardPolicy(
+      Axis.vertical,
+      HorizontalPolicy.endStart,
+      VerticalPolicy.bottomTop,
     );
   }
 }
