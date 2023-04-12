@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'GridPad Demo',
       theme: darkThemeData,
       home: const HomePage(),
     );
@@ -146,8 +146,7 @@ class WeightGrid extends StatelessWidget {
         columnCount: columnCount,
       ),
       children: [
-        for (var i = 0; i < rowCount * columnCount; i++)
-          const Cell.explicit(child: BlueprintBox())
+        for (var i = 0; i < rowCount * columnCount; i++) const BlueprintBox()
       ],
     );
   }
@@ -203,10 +202,7 @@ class SimpleBlueprintCard extends StatelessWidget {
       ratio: 1.5,
       child: GridPad(
         gridPadCells: GridPadCells.gridSize(rowCount: 3, columnCount: 4),
-        children: [
-          for (var i = 0; i < 13; i++)
-            const Cell.explicit(child: BlueprintBox())
-        ],
+        children: [for (var i = 0; i < 13; i++) const BlueprintBox()],
       ),
     );
   }
@@ -224,10 +220,7 @@ class CustomSizeBlueprintCard extends StatelessWidget {
             .rowSize(0, const Weight(2))
             .columnSize(3, const Fixed(30))
             .build(),
-        children: [
-          for (var i = 0; i < 12; i++)
-            const Cell.explicit(child: BlueprintBox())
-        ],
+        children: [for (var i = 0; i < 12; i++) const BlueprintBox()],
       ),
     );
   }
@@ -251,8 +244,8 @@ class SimpleBlueprintCardWithContent extends StatelessWidget {
               columnCount: columnCount,
             ),
             children: const [
-              Cell.explicit(child: ContentBlueprintBox(text: '[0;0]')),
-              Cell.explicit(child: ContentBlueprintBox(text: '[0;1]')),
+              ContentBlueprintBox(text: '[0;0]'),
+              ContentBlueprintBox(text: '[0;1]'),
             ],
           ),
         ],
@@ -369,7 +362,7 @@ class SimpleBlueprintCardPolicy extends StatelessWidget {
             ),
             children: [
               for (var i = 0; i < rowCount * columnCount; i++)
-                Cell.explicit(child: ContentBlueprintBox(text: '$i')),
+                ContentBlueprintBox(text: '$i'),
             ],
           ),
         ],

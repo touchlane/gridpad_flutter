@@ -14,9 +14,7 @@ class SimplePriorityCalculatorPad extends StatelessWidget {
           .rowSize(0, const Fixed(48))
           .build(),
       children: [
-        Cell.explicit(
-          child: MediumTextPadButton('C', onPressed: () {}),
-        ),
+        MediumTextPadButton('C', onPressed: () {}),
         Cell.explicit(
           columnSpan: 2,
           child: MediumTextPadButton('(', onPressed: () {}),
@@ -25,30 +23,14 @@ class SimplePriorityCalculatorPad extends StatelessWidget {
           columnSpan: 2,
           child: MediumTextPadButton(')', onPressed: () {}),
         ),
-        Cell.explicit(
-          child: LargeTextPadButton('7', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('8', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('9', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('×', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('÷', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('4', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('5', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('6', onPressed: () {}),
-        ),
+        LargeTextPadButton('7', onPressed: () {}),
+        LargeTextPadButton('8', onPressed: () {}),
+        LargeTextPadButton('9', onPressed: () {}),
+        LargeTextPadButton('×', onPressed: () {}),
+        LargeTextPadButton('÷', onPressed: () {}),
+        LargeTextPadButton('4', onPressed: () {}),
+        LargeTextPadButton('5', onPressed: () {}),
+        LargeTextPadButton('6', onPressed: () {}),
         Cell.explicit(
           rowSpan: 2,
           child: LargeTextPadButton('-', onPressed: () {}),
@@ -62,23 +44,15 @@ class SimplePriorityCalculatorPad extends StatelessWidget {
           column: 0,
           child: LargeTextPadButton('1', onPressed: () {}),
         ),
-        Cell.explicit(
-          child: LargeTextPadButton('2', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('3', onPressed: () {}),
-        ),
+        LargeTextPadButton('2', onPressed: () {}),
+        LargeTextPadButton('3', onPressed: () {}),
         Cell(
           row: 4,
           column: 0,
           child: LargeTextPadButton('0', onPressed: () {}),
         ),
-        Cell.explicit(
-          child: LargeTextPadButton('.', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: IconPadButton(Icons.backspace, onPressed: () {}),
-        ),
+        LargeTextPadButton('.', onPressed: () {}),
+        IconPadButton(Icons.backspace, onPressed: () {}),
         Cell.explicit(
           columnSpan: 2,
           child: LargeTextPadButton('=', onPressed: () {}),

@@ -23,39 +23,19 @@ class PinPad extends StatelessWidget {
           column: 1,
           child: LargeTextPadButton('0', onPressed: () => callback?.call('0')),
         ),
-        Cell.explicit(
-          child: IconPadButton(
-            Icons.backspace,
-            onPressed: () => callback?.call('r'),
-          ),
+        IconPadButton(
+          Icons.backspace,
+          onPressed: () => callback?.call('r'),
         ),
-        Cell.explicit(
-          child: LargeTextPadButton('1', onPressed: () => callback?.call('1')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('2', onPressed: () => callback?.call('2')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('3', onPressed: () => callback?.call('3')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('4', onPressed: () => callback?.call('4')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('5', onPressed: () => callback?.call('5')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('6', onPressed: () => callback?.call('6')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('7', onPressed: () => callback?.call('7')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('8', onPressed: () => callback?.call('8')),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('9', onPressed: () => callback?.call('9')),
-        ),
+        LargeTextPadButton('1', onPressed: () => callback?.call('1')),
+        LargeTextPadButton('2', onPressed: () => callback?.call('2')),
+        LargeTextPadButton('3', onPressed: () => callback?.call('3')),
+        LargeTextPadButton('4', onPressed: () => callback?.call('4')),
+        LargeTextPadButton('5', onPressed: () => callback?.call('5')),
+        LargeTextPadButton('6', onPressed: () => callback?.call('6')),
+        LargeTextPadButton('7', onPressed: () => callback?.call('7')),
+        LargeTextPadButton('8', onPressed: () => callback?.call('8')),
+        LargeTextPadButton('9', onPressed: () => callback?.call('9')),
       ],
     );
   }

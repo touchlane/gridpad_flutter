@@ -32,78 +32,30 @@ class EngineeringCalculatorPad extends StatelessWidget {
           column: 0,
           child: SmallTextPadButton('sin', onPressed: () {}),
         ),
-        Cell.explicit(
-          child: SmallTextPadButton('cos', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: SmallTextPadButton('log', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: SmallTextPadButton('π', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: SmallTextPadButton('√', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('7', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('8', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('9', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('(', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton(')', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('4', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('5', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('6', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('×', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('÷', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('1', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('2', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('3', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('-', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('+', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('C', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('.', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('0', onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: IconPadButton(Icons.backspace, onPressed: () {}),
-        ),
-        Cell.explicit(
-          child: LargeTextPadButton('=', onPressed: () {}),
-        ),
+        SmallTextPadButton('cos', onPressed: () {}),
+        SmallTextPadButton('log', onPressed: () {}),
+        SmallTextPadButton('π', onPressed: () {}),
+        SmallTextPadButton('√', onPressed: () {}),
+        LargeTextPadButton('7', onPressed: () {}),
+        LargeTextPadButton('8', onPressed: () {}),
+        LargeTextPadButton('9', onPressed: () {}),
+        LargeTextPadButton('(', onPressed: () {}),
+        LargeTextPadButton(')', onPressed: () {}),
+        LargeTextPadButton('4', onPressed: () {}),
+        LargeTextPadButton('5', onPressed: () {}),
+        LargeTextPadButton('6', onPressed: () {}),
+        LargeTextPadButton('×', onPressed: () {}),
+        LargeTextPadButton('÷', onPressed: () {}),
+        LargeTextPadButton('1', onPressed: () {}),
+        LargeTextPadButton('2', onPressed: () {}),
+        LargeTextPadButton('3', onPressed: () {}),
+        LargeTextPadButton('-', onPressed: () {}),
+        LargeTextPadButton('+', onPressed: () {}),
+        LargeTextPadButton('C', onPressed: () {}),
+        LargeTextPadButton('.', onPressed: () {}),
+        LargeTextPadButton('0', onPressed: () {}),
+        IconPadButton(Icons.backspace, onPressed: () {}),
+        LargeTextPadButton('=', onPressed: () {}),
       ],
     );
   }
