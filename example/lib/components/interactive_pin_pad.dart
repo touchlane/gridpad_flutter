@@ -1,5 +1,6 @@
-import 'package:example/components/pin_pad.dart';
 import 'package:flutter/material.dart';
+
+import 'pin_pad.dart';
 
 class InteractivePinPad extends StatefulWidget {
   const InteractivePinPad({Key? key}) : super(key: key);

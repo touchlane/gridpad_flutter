@@ -22,4 +22,8 @@
  * SOFTWARE.
  */
 
-library gridpad;
+library grid_pad;
+
+export 'package:grid_pad/grid_pad_cells.dart';
+export 'package:grid_pad/grid_pad_placement.dart';
+export 'package:grid_pad/grid_pad_widget.dart';

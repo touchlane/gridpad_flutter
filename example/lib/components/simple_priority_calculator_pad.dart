@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grid_pad/grid_pad_cells.dart';
-import 'package:grid_pad/grid_pad_widget.dart';
+import 'package:grid_pad/grid_pad.dart';
 
 import 'pad_button.dart';
 

@@ -27,8 +27,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'grid_pad_cells.dart';
-import 'placement.dart';
+import 'grid_pad_placement.dart';
 
+/// A widget for specifying the additional configuration
+/// for placement in the grid.
+///
+/// With this widget can be specified:
+/// - location in a grid ([row] and [column] properties)
+/// - span size ([rowSpan] and [columnSpan] properties)
 class Cell extends ProxyWidget {
   final int row;
   final int column;
@@ -169,6 +175,17 @@ class _GridPadDelegate extends MultiChildLayoutDelegate {
   }
 }
 
+/// Layout for placing elements in the grid.
+///
+/// Layout allows place elements in a grid defined through [gridPadCells]
+/// parameter. By default, all [children] placed sequentially,
+/// according [placementPolicy].
+///
+/// To specify an exact location or span size other than 1, the child
+/// should be wrapped with the [Cell] widget.
+///
+/// **Widget have to be limited on both sides (width and height) otherwise an
+/// exception will be thrown.**
 class GridPad extends StatelessWidget {
   final GridPadCells gridPadCells;
   final List<GridPadContent> _content = [];

@@ -186,7 +186,8 @@ abstract class PlacementStrategy {
   }) {
     final anchor = _placementPolicy.anchor;
     final rowOutside = _cells.isRowOutsideOfGrid(row, rowSpan, anchor);
-    final columnOutside = _cells.isColumnOutsideOfGrid(column, columnSpan, anchor);
+    final columnOutside =
+        _cells.isColumnOutsideOfGrid(column, columnSpan, anchor);
     if (rowOutside || columnOutside) {
       onSkipped(
         row: row,

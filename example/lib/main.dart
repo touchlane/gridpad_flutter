@@ -1,9 +1,7 @@
 import 'package:example/components/blueprint.dart';
 import 'package:example/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:grid_pad/grid_pad_cells.dart';
-import 'package:grid_pad/grid_pad_widget.dart';
-import 'package:grid_pad/placement.dart';
+import 'package:grid_pad/grid_pad.dart';
 
 import 'components/engineering_calculator_pad.dart';
 import 'components/interactive_pin_pad.dart';

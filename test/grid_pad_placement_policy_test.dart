@@ -23,7 +23,7 @@
  */
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grid_pad/placement.dart';
+import 'package:grid_pad/grid_pad_placement.dart';
 
 void main() {
   test('Test anchor default initialization', () {

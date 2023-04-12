@@ -141,6 +141,7 @@ class TotalSize {
   int get hashCode => weight.hashCode ^ fixed.hashCode;
 }
 
+@protected
 extension GridPadCellSizeExtension on Iterable<GridPadCellSize> {
   /// Calculate the total size for the defined cell sizes list.
   ///
