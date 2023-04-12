@@ -1,7 +1,7 @@
 import 'package:example/components/pad_button.dart';
 import 'package:flutter/material.dart';
-import 'package:grid_pad/gridpad_cells.dart';
-import 'package:grid_pad/gridpad_widget.dart';
+import 'package:grid_pad/grid_pad_cells.dart';
+import 'package:grid_pad/grid_pad_widget.dart';
 
 class EngineeringCalculatorPad extends StatelessWidget {
   const EngineeringCalculatorPad({Key? key}) : super(key: key);

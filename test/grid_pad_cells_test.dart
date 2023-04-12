@@ -23,7 +23,7 @@
  */
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grid_pad/gridpad_cells.dart';
+import 'package:grid_pad/grid_pad_cells.dart';
 
 void main() {
   test('Check equals(and hashCode for the same GridPadCells', () {

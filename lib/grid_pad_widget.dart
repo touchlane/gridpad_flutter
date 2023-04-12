@@ -26,7 +26,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'gridpad_cells.dart';
+import 'grid_pad_cells.dart';
 import 'placement.dart';
 
 class Cell extends ProxyWidget {
