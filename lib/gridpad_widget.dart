@@ -29,42 +29,46 @@ import 'package:flutter/widgets.dart';
 import 'gridpad_cells.dart';
 import 'placement.dart';
 
-class Cell extends StatelessWidget {
+class Cell extends ProxyWidget {
   final int row;
   final int column;
   final int rowSpan;
   final int columnSpan;
   final bool _implicitly;
-  final Widget child;
 
   const Cell({
-    Key? key,
+    super.key,
     required this.row,
     required this.column,
     this.rowSpan = 1,
     this.columnSpan = 1,
-    required this.child,
+    required super.child,
   })  : _implicitly = false,
         assert(rowSpan > 0),
-        assert(columnSpan > 0),
-        super(key: key);
+        assert(columnSpan > 0);
 
   const Cell.explicit({
-    Key? key,
+    super.key,
     this.rowSpan = 1,
     this.columnSpan = 1,
-    required this.child,
+    required super.child,
   })  : _implicitly = true,
         row = 0,
         column = 0,
         assert(rowSpan > 0),
-        assert(columnSpan > 0),
-        super(key: key);
+        assert(columnSpan > 0);
 
   @override
-  Widget build(BuildContext context) {
-    return child;
+  Element createElement() {
+    return _CellElement(this);
   }
+}
+
+class _CellElement extends ProxyElement {
+  _CellElement(super.widget);
+
+  @override
+  void notifyClients(covariant ProxyWidget oldWidget) {}
 }
 
 class _GridPadDelegate extends MultiChildLayoutDelegate {
