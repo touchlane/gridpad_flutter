@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../theme.dart';
+
 class BlueprintBox extends StatelessWidget {
   const BlueprintBox({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: SizedBox.expand(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
+            color: andreaBlue,
             shape: BoxShape.rectangle,
             border: Border.all(color: Colors.white, style: BorderStyle.solid),
           ),

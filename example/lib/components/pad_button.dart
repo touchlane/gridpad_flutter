@@ -1,3 +1,4 @@
+import 'package:example/components/pad_theme_provider.dart';
 import 'package:flutter/material.dart';
 
 class IconPadButton extends StatelessWidget {
@@ -14,7 +15,12 @@ class IconPadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return PadButton(
       onPressed: onPressed,
-      child: Center(child: Icon(iconData)),
+      child: Center(
+        child: Icon(
+          iconData,
+          color: context.theme().colors.content,
+        ),
+      ),
     );
   }
 }
@@ -98,7 +104,7 @@ class TextPadButton extends StatelessWidget {
       child: Center(
         child: Text(
           text,
-          style: style,
+          style: style?.copyWith(color: context.theme().colors.content),
         ),
       ),
     );
@@ -116,10 +122,58 @@ class PadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: OutlinedButton(
+      child: FilledButton(
         onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.all(0),
+          backgroundColor: context.theme().colors.background,
+        ),
         child: child,
       ),
     );
+  }
+}
+
+class PadButtonColors {
+  final Color? content;
+  final Color? background;
+
+  const PadButtonColors({
+    this.content,
+    this.background,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PadButtonColors &&
+          runtimeType == other.runtimeType &&
+          content == other.content &&
+          background == other.background;
+
+  @override
+  int get hashCode => content.hashCode ^ background.hashCode;
+}
+
+class PadButtonTheme {
+  final PadButtonColors colors;
+
+  const PadButtonTheme({this.colors = const PadButtonColors()});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PadButtonTheme &&
+          runtimeType == other.runtimeType &&
+          colors == other.colors;
+
+  @override
+  int get hashCode => colors.hashCode;
+}
+
+extension _ThemeExtension on BuildContext {
+  PadButtonTheme theme() {
+    return PadThemeProvider.of<PadButtonTheme>(this)?.theme ??
+        const PadButtonTheme();
   }
 }

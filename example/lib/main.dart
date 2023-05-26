@@ -1,4 +1,6 @@
 import 'package:example/components/blueprint.dart';
+import 'package:example/components/pad_theme_provider.dart';
+import 'package:example/components/pin_pad.dart';
 import 'package:example/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:grid_pad/grid_pad.dart';
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'GridPad Demo',
       theme: darkThemeData,
+      darkTheme: darkThemeData,
       home: const HomePage(),
     );
   }
@@ -104,12 +107,14 @@ class BlueprintCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: andreaBlue,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             if (title != null)
               Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
                     title!,
@@ -158,7 +163,16 @@ class InteractivePinPadCard extends StatelessWidget {
     return const Card(
       child: Padding(
         padding: EdgeInsets.all(16.0),
-        child: InteractivePinPad(),
+        child: PadThemeProvider(
+          theme: PinPadTheme(
+            colors: PinPadColors(
+              content: white,
+              removeColor: heatWave,
+              background: aswadBlack,
+            ),
+          ),
+          child: InteractivePinPad(),
+        ),
       ),
     );
   }
@@ -169,7 +183,22 @@ class EngineeringCalculatorPadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const PadCard(ratio: 1.1, child: EngineeringCalculatorPad());
+    return const PadCard(
+      ratio: 1.1,
+      child: PadThemeProvider(
+        theme: EngineeringCalculatorPadTheme(
+          colors: EngineeringCalculatorPadColors(
+            content: aswadBlack,
+            removeContent: heatWave,
+            actionsContent: andreaBlue,
+            functionsContent: barneyPurple,
+            background: white,
+            numBackground: Colors.white10,
+          ),
+        ),
+        child: EngineeringCalculatorPad(),
+      ),
+    );
   }
 }
 
@@ -178,7 +207,20 @@ class SimplePriorityCalculatorPadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const PadCard(ratio: 1, child: SimplePriorityCalculatorPad());
+    return const PadCard(
+      ratio: 1,
+      child: PadThemeProvider(
+        theme: SimplePriorityCalculatorPadTheme(
+          colors: SimplePriorityCalculatorPadColors(
+            content: white,
+            background: aswadBlack,
+            removeBackground: heatWave,
+            actionsBackground: andreaBlue,
+          ),
+        ),
+        child: SimplePriorityCalculatorPad(),
+      ),
+    );
   }
 }
 
@@ -187,7 +229,20 @@ class SimpleCalculatorPadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const PadCard(ratio: 0.9, child: SimpleCalculatorPad());
+    return const PadCard(
+      ratio: 0.9,
+      child: PadThemeProvider(
+        theme: SimpleCalculatorPadTheme(
+          colors: SimpleCalculatorPadColors(
+            content: aswadBlack,
+            removeContent: heatWave,
+            actionsContent: andreaBlue,
+            background: white,
+          ),
+        ),
+        child: SimpleCalculatorPad(),
+      ),
+    );
   }
 }
 

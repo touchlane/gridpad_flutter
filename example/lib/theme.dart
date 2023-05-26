@@ -102,6 +102,7 @@ ThemeData buildThemeData(ColorScheme colorScheme) {
         statusBarBrightness: colorScheme.brightness,
       ),
     ),
+    cardTheme: const CardTheme(color: Color(0xFF48454E)),
   );
 }
 
