@@ -91,10 +91,16 @@ class PadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return AspectRatio(
+      aspectRatio: ratio,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: AspectRatio(aspectRatio: ratio, child: child),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: child,
+          ),
+        ),
       ),
     );
   }
@@ -114,25 +120,31 @@ class BlueprintCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: andreaBlue,
+    return AspectRatio(
+      aspectRatio: ratio,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            if (title != null)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    title!,
-                    style: Theme.of(context).textTheme.titleMedium,
+        child: Card(
+          color: andreaBlue,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                if (title != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        title!,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16)
+                    ],
                   ),
-                  const SizedBox(height: 16)
-                ],
-              ),
-            AspectRatio(aspectRatio: ratio, child: child),
-          ],
+                Expanded(child: child),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -168,18 +180,21 @@ class InteractivePinPadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: PadThemeProvider(
-          theme: PinPadTheme(
-            colors: PinPadColors(
-              content: white,
-              removeColor: heatWave,
-              background: aswadBlack,
+    return const Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Card(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: PadThemeProvider(
+            theme: PinPadTheme(
+              colors: PinPadColors(
+                content: white,
+                removeColor: heatWave,
+                background: aswadBlack,
+              ),
             ),
+            child: InteractivePinPad(),
           ),
-          child: InteractivePinPad(),
         ),
       ),
     );
@@ -405,7 +420,7 @@ class SimpleBlueprintCardPolicy extends StatelessWidget {
     const columnCount = 4;
     final TextDirection layoutDirection = Directionality.of(context);
     return BlueprintCard(
-      ratio: 1.5,
+      ratio: 1.2,
       title:
           'LayoutDirection = $layoutDirection\nmainAxis = $mainAxis\nhorizontal = $horizontalPolicy\nvertical = $verticalPolicy',
       child: Stack(
