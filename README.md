@@ -1,6 +1,6 @@
 # GridPad Flutter layout
 
-**GridPad** is a Flutter library that allows you to place UI elements in a predefined grid,
+**grid_pad** is a Flutter library that allows you to place UI elements in a predefined grid,
 manage spans in two dimensions, have flexible controls to manage row and column sizes.
 
 # Usage
