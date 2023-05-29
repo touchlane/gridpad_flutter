@@ -24,6 +24,7 @@
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:grid_pad/grid_pad_diagnostic.dart';
 
 import 'grid_pad_cells.dart';
 
@@ -211,7 +212,11 @@ abstract class PlacementStrategy {
     required int column,
     required int rowSpan,
     required int columnSpan,
-  }) {}
+  }) {
+    GridPadDiagnosticLogger().onItemSkipped(
+      "Skipped position: [${row}x$column], span size: [${rowSpan}x$columnSpan]\nGrid size: [${_cells.rowCount}x${_cells.columnCount}]",
+    );
+  }
 
   onPlaced({
     required int left,

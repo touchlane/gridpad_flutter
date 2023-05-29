@@ -53,7 +53,7 @@ class Cell extends ProxyWidget {
         assert(rowSpan > 0),
         assert(columnSpan > 0);
 
-  const Cell.explicit({
+  const Cell.implicit({
     super.key,
     this.rowSpan = 1,
     this.columnSpan = 1,
@@ -207,7 +207,7 @@ class GridPad extends StatelessWidget {
       if (contentCell is Cell) {
         cell = contentCell;
       } else {
-        cell = Cell.explicit(child: contentCell);
+        cell = Cell.implicit(child: contentCell);
       }
       if (cell._implicitly) {
         _placementStrategy.placeImplicitly(

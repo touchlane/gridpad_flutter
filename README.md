@@ -44,7 +44,7 @@ following code initializes a 3x4 grid with rows and columns weights equal to 1:
 
 ```dart
 GridPad(
-  gridPadCells: GridPadCells.gridSize(rowCount: 4, columnCount: 3),       
+  gridPadCells: GridPadCells.gridSize(rowCount: 3, columnCount: 4),       
   children: [],
 );
 ```
@@ -103,3 +103,158 @@ GridPad(
 To place an item explicitly or specify row and column span for implicitly placement need to wrap
 child widget into the `Cell` widget. When defines `row` and `column` property it's also possible 
 to place all items in a different order without regard to the actual location.
+
+```dart
+GridPad(
+  gridPadCells: GridPadCells.gridSize(rowCount: 3, columnCount: 4),       
+  children: [
+    Cell(
+      row: 1,
+      column: 2,
+      child: ChildWidget(),
+    ),
+    Cell(
+      row: 0,
+      column: 1,
+      child: ChildWidget(),
+    ),
+  ],
+);
+```
+
+> :warning: A cell can contain more than one item. The draw order will be the same as the place
+> order. GridPad does not limit the item's size when the child has an explicit size. That means that
+> the item can go outside the cell bounds.
+
+## Placement policy
+
+To define the direction of placement items in an implicit method used the `placementPolicy`
+property.
+
+```dart
+GridPad(
+  gridPadCells: GridPadCells.gridSize(rowCount: 3, columnCount: 4),
+  placementPolicy: GridPadPlacementPolicy(
+    mainAxis: Axis.horizontal,
+    horizontalPolicy: HorizontalPolicy.startEnd,
+    verticalPolicy: VerticalPolicy.topBottom,
+  ),
+  children: [],
+);
+```
+
+The `GridPadPlacementPolicy` class has three properties that allow controlling different aspects
+of placement items.
+
+* `mainAxis` sets the axis along which the item will be placed. When the axis is filled to the end,
+  the next item will be placed on the next axis. If `mainAxis` is `horizontal` then items will be
+  placed sequentially one by one by horizontal line. If `mainAxis` is `vertical` then items will be
+  placed sequentially one by one by vertical line.
+* `horizontalPolicy` sets the direction of placement horizontally. When `mainAxis` is
+  `horizontal` this property describes the direction of placement of the next item. When `mainAxis`
+  is `vertical` this property describes the direction of moving to the next axis. The `startEnd`
+  means that the direction of placement items or moving main axis will begin from the start layout
+  direction and move to the end layout direction (depending on LTR or RTL). The `endStart` means
+  the same but in the opposite order.
+* `verticalPolicy` sets the direction of placement vertically. When `mainAxis` is
+  `vertical` this property describes the direction of placement of the next item. When `mainAxis`
+  is `horizontal` this property describes the direction of moving to the next axis. The `topBottom`
+  means that the direction of placement items or moving main axis will begin from the top and
+  move to the bottom. The `bottomTop` means the same but in the opposite order.
+
+## Spans
+
+By default, each item has a span of 1x1. To change it, specify one or both of the `rowSpan`
+and `columnSpan` properties of the `Cell` widget.
+
+```dart
+GridPad(
+  gridPadCells: GridPadCells.gridSize(rowCount: 3, columnCount: 4),       
+  children: [
+    // row = 0, column = 0, rowSpan = 3, columnSpan = 2
+    Cell.implicit(
+      rowSpan: 3,
+      columnSpan: 2,
+      child: ChildWidget(),
+    ),
+    // row = 0, column = 2, rowSpan = 2, columnSpan = 1
+    Cell.implicit(
+      rowSpan: 2,
+      columnSpan: 2,
+      child: ChildWidget(),
+    ),
+  ],
+);
+```
+
+When an item has a span that goes outside the grid, the item is skipped and doesn't draw at all.
+You can handle skipping cases by [diagnostic logger](#diagnostic).
+
+```dart
+GridPad(
+  gridPadCells: GridPadCells.gridSize(rowCount: 3, columnCount: 4),       
+  children: [
+    // will be skipped in a drawing process because the item is placed in the column range [3;5] 
+    // but the maximum allowable is 3
+    Cell(
+      row: 1,
+      column: 3
+      rowSpan: 1,
+      columnSpan: 3,
+      child: ChildWidget(),
+    ), 
+  ],
+);
+```
+
+> :warning: When you have a complex structure it's highly recommended to use an **explicit** method
+> of placing all items to avoid unpredictable behavior and mistakes during the placement of the
+> items.
+
+## Anchor
+
+When `rowSpan` or `columnSpan` is more than 1 then the content is placed relative to the implicit
+parameter - **anchor**. The anchor is the point in the corner from which the span expands.
+The value depends on `horizontalPolicy` and `verticalPolicy` values in the `placementPolicy`
+property.
+
+## Layout Direction
+
+The library handles the parent's `TextDirection` value. That means that placement in **RTL**
+direction with `horizontalPolicy = startEnd` will have the same behavior as **LTR** direction
+with `horizontalPolicy = endStart`.
+
+## Diagnostic
+
+The library doesn't throw any exceptions when an item is tried to place outside of the defined grid.
+Instead, the library just sends a signal through the special class `GridPadDiagnosticLogger`,
+skipping this item and moving to the next one. This silent behavior might be not suitable during
+the development process, so there is a way to have more control - define a custom listener.
+As a dev solution, you can just redirect the message to the console log or throw an exception to
+fix it immediately.
+
+# License
+
+```
+MIT License
+
+Copyright (c) 2023 Touchlane LLC tech@touchlane.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```

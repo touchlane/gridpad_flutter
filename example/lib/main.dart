@@ -4,6 +4,7 @@ import 'package:example/components/pin_pad.dart';
 import 'package:example/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:grid_pad/grid_pad.dart';
+import 'package:grid_pad/grid_pad_diagnostic.dart';
 
 import 'components/engineering_calculator_pad.dart';
 import 'components/interactive_pin_pad.dart';
@@ -11,7 +12,14 @@ import 'components/simple_calculator_pad.dart';
 import 'components/simple_priority_calculator_pad.dart';
 
 void main() {
+  _initDiagnostic();
   runApp(const MyApp());
+}
+
+_initDiagnostic() {
+  GridPadDiagnosticLogger().skippingItemCallback = (String message) {
+    debugPrint(message);
+  };
 }
 
 class MyApp extends StatelessWidget {
@@ -361,7 +369,7 @@ class SimpleBlueprintCardWithSpansOverlapped extends StatelessWidget {
               columnCount: columnCount,
             ),
             children: const [
-              Cell.explicit(
+              Cell.implicit(
                 rowSpan: 3,
                 columnSpan: 2,
                 child: ContentBlueprintBox(text: '[0;0]\nSpan: 3x2'),

@@ -23,13 +23,13 @@ class SimplePriorityCalculatorPad extends StatelessWidget {
             .build(),
         children: [
           _RemoveTheme(child: MediumTextPadButton('C', onPressed: () {})),
-          Cell.explicit(
+          Cell.implicit(
             columnSpan: 2,
             child: _ActionTheme(
               child: MediumTextPadButton('(', onPressed: () {}),
             ),
           ),
-          Cell.explicit(
+          Cell.implicit(
             columnSpan: 2,
             child: _ActionTheme(
               child: MediumTextPadButton(')', onPressed: () {}),
@@ -43,13 +43,13 @@ class SimplePriorityCalculatorPad extends StatelessWidget {
           LargeTextPadButton('4', onPressed: () {}),
           LargeTextPadButton('5', onPressed: () {}),
           LargeTextPadButton('6', onPressed: () {}),
-          Cell.explicit(
+          Cell.implicit(
             rowSpan: 2,
             child: _ActionTheme(
               child: LargeTextPadButton('-', onPressed: () {}),
             ),
           ),
-          Cell.explicit(
+          Cell.implicit(
             rowSpan: 2,
             child: _ActionTheme(
               child: LargeTextPadButton('+', onPressed: () {}),
@@ -69,7 +69,7 @@ class SimplePriorityCalculatorPad extends StatelessWidget {
           ),
           LargeTextPadButton('.', onPressed: () {}),
           _RemoveTheme(child: IconPadButton(Icons.backspace, onPressed: () {})),
-          Cell.explicit(
+          Cell.implicit(
             columnSpan: 2,
             child: _ActionTheme(
               child: LargeTextPadButton('=', onPressed: () {}),

@@ -103,6 +103,10 @@ ThemeData buildThemeData(ColorScheme colorScheme) {
       ),
     ),
     cardTheme: const CardTheme(color: Color(0xFF48454E)),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.white),
+      titleMedium: TextStyle(color: Colors.white),
+    ),
   );
 }
 
