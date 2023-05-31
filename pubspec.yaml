@@ -1,7 +1,7 @@
 name: grid_pad
 description: GridPad Flutter layout
-version: 0.0.1
-homepage:
+version: 0.0.9
+repository: https://github.com/touchlane/gridpad_flutter
 
 environment:
   sdk: '>=2.18.6 <4.0.0'

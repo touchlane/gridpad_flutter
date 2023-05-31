@@ -84,11 +84,6 @@ ThemeData buildThemeData(ColorScheme colorScheme) {
   //https://m3.material.io/styles/color/the-color-system/color-roles
   //https://m3.material.io/styles/typography/type-scale-tokens
   const level2Elevation = 2.0;
-  final surface2Color = ElevationOverlay.applySurfaceTint(
-    colorScheme.surface,
-    colorScheme.surfaceTint,
-    level2Elevation,
-  );
   return ThemeData.from(
     colorScheme: colorScheme,
     useMaterial3: true,

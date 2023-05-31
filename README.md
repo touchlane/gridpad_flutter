@@ -32,10 +32,10 @@ The command above add the following dependency:
 
 ```yaml
 dependencies:
-  grid_pad: version
+  grid_pad: <last_version>
 ```
 
-To start using the library is enough import the package:
+To start using the library is enough to import the package:
 
 ```dart
 import 'package:grid_pad/grid_pad.dart';

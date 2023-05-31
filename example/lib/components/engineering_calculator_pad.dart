@@ -9,7 +9,6 @@ class EngineeringCalculatorPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final padTheme = context.theme();
     return PadThemeProvider(
       theme: PadButtonTheme(
