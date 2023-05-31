@@ -250,6 +250,10 @@ the development process, so there is a way to have more control - define a custo
 As a dev solution, you can just redirect the message to the console log or throw an exception to
 fix it immediately.
 
+# Enjoy using this library?
+
+Join [:dizzy:Stargazers](https://github.com/touchlane/gridpad_flutter/stargazers) to support future development.
+
 # License
 
 ```
