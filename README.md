@@ -192,7 +192,7 @@ GridPad(
     // row = 0, column = 2, rowSpan = 2, columnSpan = 1
     Cell.implicit(
       rowSpan: 2,
-      columnSpan: 2,
+      columnSpan: 1,
       child: ChildWidget(),
     ),
   ],
