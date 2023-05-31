@@ -1,5 +1,7 @@
 # GridPad Flutter layout
 
+![github_title](https://github.com/landarskiy/gridpad_flutter/assets/2251498/e92c8de0-d6d0-4db7-b9be-98aeecc48921)
+
 **grid_pad** is a Flutter library that allows you to place UI elements in a predefined grid,
 manage spans in two dimensions, have flexible controls to manage row and column sizes.
 
@@ -17,6 +19,8 @@ Key features and limitations:
 * Each item in a cell can have different spans.
 * Each item can have horizontal and vertical spans simultaneously.
 * Each row and column can have a specific size: fixed or weight-based.
+
+![grid_examples](https://github.com/landarskiy/gridpad_flutter/assets/2251498/a4669ef0-1cd4-43af-a30e-151ca30f5ee1)
 
 ## Install
 
@@ -48,6 +52,7 @@ GridPad(
   children: [],
 );
 ```
+
 
 By default rows and columns have **weight** size equal to 1, but it's possible specify different
 size to specific row or column.
