@@ -53,6 +53,7 @@ GridPad(
 );
 ```
 
+![simple_define_grid_dark](https://github.com/landarskiy/gridpad_flutter/assets/2251498/bf5ff15b-86fe-4b9d-96e3-01fa46799e30)
 
 By default rows and columns have **weight** size equal to 1, but it's possible specify different
 size to specific row or column.
@@ -73,6 +74,8 @@ GridPad(
   children: [],
 );
 ```
+
+![custom_define_grid_dark](https://github.com/landarskiy/gridpad_flutter/assets/2251498/e5ea7828-0b71-4bf4-8c82-ab6db4d38bd4)
 
 The algorithm for allocating available space between cells:
 
@@ -127,6 +130,8 @@ GridPad(
 );
 ```
 
+![place_items_specific_dark](https://github.com/landarskiy/gridpad_flutter/assets/2251498/8da14faf-7a20-4808-97a9-f2450119e607)
+
 > :warning: A cell can contain more than one item. The draw order will be the same as the place
 > order. GridPad does not limit the item's size when the child has an explicit size. That means that
 > the item can go outside the cell bounds.
@@ -167,6 +172,8 @@ of placement items.
   means that the direction of placement items or moving main axis will begin from the top and
   move to the bottom. The `bottomTop` means the same but in the opposite order.
 
+![placement_policy](https://github.com/landarskiy/gridpad_flutter/assets/2251498/6a5eeab2-bc79-48fc-b934-cea47786f1e7)
+
 ## Spans
 
 By default, each item has a span of 1x1. To change it, specify one or both of the `rowSpan`
@@ -191,6 +198,8 @@ GridPad(
   ],
 );
 ```
+
+![spanned_dark](https://github.com/landarskiy/gridpad_flutter/assets/2251498/c75f1e2c-1dca-45cc-b2ad-0a3278174e26)
 
 When an item has a span that goes outside the grid, the item is skipped and doesn't draw at all.
 You can handle skipping cases by [diagnostic logger](#diagnostic).
@@ -222,6 +231,8 @@ When `rowSpan` or `columnSpan` is more than 1 then the content is placed relativ
 parameter - **anchor**. The anchor is the point in the corner from which the span expands.
 The value depends on `horizontalPolicy` and `verticalPolicy` values in the `placementPolicy`
 property.
+
+![anchor](https://github.com/landarskiy/gridpad_flutter/assets/2251498/f7786101-ad64-4d9c-9e0c-929d850683e8)
 
 ## Layout Direction
 
