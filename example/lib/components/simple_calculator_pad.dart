@@ -37,7 +37,9 @@ class SimpleCalculatorPad extends StatelessWidget {
           LargeTextPadButton('3', onPressed: () {}),
           Cell.implicit(
             rowSpan: 2,
-            child: _ActionTheme(child: LargeTextPadButton('=', onPressed: () {})),
+            child: _ActionTheme(
+              child: LargeTextPadButton('=', onPressed: () {}),
+            ),
           ),
           Cell(
             row: 4,
