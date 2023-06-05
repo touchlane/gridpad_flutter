@@ -22,10 +22,41 @@
  * SOFTWARE.
  */
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grid_pad/grid_pad_placement.dart';
 
 void main() {
+  test('Check equals and hashCode for the same GridPadPlacementPolicy', () {
+    final left = GridPadPlacementPolicy(
+      mainAxis: Axis.horizontal,
+      verticalPolicy: VerticalPolicy.topBottom,
+      horizontalPolicy: HorizontalPolicy.endStart,
+    );
+    final right = GridPadPlacementPolicy(
+      mainAxis: Axis.horizontal,
+      verticalPolicy: VerticalPolicy.topBottom,
+      horizontalPolicy: HorizontalPolicy.endStart,
+    );
+    expect(left.hashCode, right.hashCode);
+    expect(left, right);
+  });
+
+  test('Check equals and hashCode for the same GridPadSpanAnchor ', () {
+    // ignore: prefer_const_constructors
+    final left = GridPadSpanAnchor(
+      horizontal: HorizontalAnchor.start,
+      vertical: VerticalAnchor.bottom,
+    );
+    // ignore: prefer_const_constructors
+    final right = GridPadSpanAnchor(
+      horizontal: HorizontalAnchor.start,
+      vertical: VerticalAnchor.bottom,
+    );
+    expect(left.hashCode, right.hashCode);
+    expect(left, right);
+  });
+
   test('Test anchor default initialization', () {
     final policy = GridPadPlacementPolicy();
     expect(
