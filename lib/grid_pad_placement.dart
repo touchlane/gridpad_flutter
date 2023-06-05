@@ -393,7 +393,7 @@ extension GridPadCellsExt on GridPadCells {
   bool isColumnOutsideOfGrid(
       int column, int columnSpan, GridPadSpanAnchor anchor) {
     final left = anchor.leftBound(column, columnSpan);
-    final right = anchor.bottomBound(column, columnSpan);
+    final right = anchor.rightBound(column, columnSpan);
     return left < 0 || right >= columnCount;
   }
 }
