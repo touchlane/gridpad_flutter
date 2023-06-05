@@ -400,7 +400,7 @@ extension GridPadCellsExt on GridPadCells {
     int columnSpan,
     GridPadSpanAnchor anchor,
   ) {
-    final left = anchor.leftBound( column, columnSpan);
+    final left = anchor.leftBound(column, columnSpan);
     final right = anchor.rightBound(column, columnSpan);
     return left < 0 || right >= columnCount;
   }
