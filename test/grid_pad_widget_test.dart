@@ -67,14 +67,14 @@ void main() {
         ),
         placementPolicy: placementPolicy,
         children: const [
-          Cell(row: 0, column: 0, rowSpan: 2, columnSpan: 2, child: Text('0:0'))
+          Cell.implicit(rowSpan: 2, columnSpan: 2, child: Text('0:0'))
         ],
       ),
     );
   }
 
   testWidgets(
-    'Check placement with different policies',
+    'Check implicitly placement with different policies',
     (tester) async {
       const rowCount = 3;
       const columnCount = 4;

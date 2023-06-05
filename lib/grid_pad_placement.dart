@@ -155,6 +155,11 @@ class GridPadSpanAnchor {
     return GridPadSpanAnchor(
         horizontal: horizontalAnchor, vertical: verticalAnchor);
   }
+
+  @override
+  String toString() {
+    return 'GridPadSpanAnchor{horizontal: $horizontal, vertical: $vertical}';
+  }
 }
 
 /// Horizontal anchor position for cells.
@@ -391,8 +396,11 @@ extension GridPadCellsExt on GridPadCells {
   /// Checks if the [column] with the span = [columnSpan] and specific [anchor]
   /// is outside the defined grid.
   bool isColumnOutsideOfGrid(
-      int column, int columnSpan, GridPadSpanAnchor anchor) {
-    final left = anchor.leftBound(column, columnSpan);
+    int column,
+    int columnSpan,
+    GridPadSpanAnchor anchor,
+  ) {
+    final left = anchor.leftBound( column, columnSpan);
     final right = anchor.rightBound(column, columnSpan);
     return left < 0 || right >= columnCount;
   }
