@@ -26,7 +26,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:grid_pad/grid_pad_cells.dart';
 
 void main() {
-  test('Check equals(and hashCode for the same GridPadCells', () {
+  test('Check equals and hashCode for the same GridPadCells', () {
     final left = GridPadCellsBuilder(rowCount: 2, columnCount: 4)
         .columnSize(1, const Weight(2))
         .rowSize(0, const Fixed(24))
@@ -35,6 +35,17 @@ void main() {
         .columnSize(1, const Weight(2))
         .rowSize(0, const Fixed(24))
         .build();
+    expect(left.hashCode, right.hashCode);
+    expect(left, right);
+  });
+
+  test('Check equals and hashCode for the same TotalSize ', () {
+    const weight = 1.0;
+    const fixed = 2.0;
+    // ignore: prefer_const_constructors
+    final left = TotalSize(weight: weight, fixed: fixed);
+    // ignore: prefer_const_constructors
+    final right = TotalSize(weight: weight, fixed: fixed);
     expect(left.hashCode, right.hashCode);
     expect(left, right);
   });
@@ -114,12 +125,21 @@ void main() {
     );
   });
 
-  test('Check errors', () {
+  test('Check errors. Invalid size options.', () {
     expect(() {
       Fixed(0);
     }, throwsAssertionError);
     expect(() {
       Weight(0);
     }, throwsAssertionError);
+    expect(() {
+      [
+        const Fixed(1),
+        const Weight(2),
+        CustomGriPadCellSize(),
+      ].calculateTotalSize();
+    }, throwsArgumentError);
   });
 }
+
+class CustomGriPadCellSize extends GridPadCellSize {}

@@ -5,6 +5,11 @@
 **grid_pad** is a Flutter library that allows you to place UI elements in a predefined grid,
 manage spans in two dimensions, have flexible controls to manage row and column sizes.
 
+[![Pub Version](https://img.shields.io/pub/v/grid_pad?color=blue)](https://pub.dev/packages/grid_pad)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/touchlane/gridpad_flutter/actions/workflows/quality.yml/badge.svg)](https://github.com/touchlane/gridpad_flutter/actions)
+[![codecov](https://codecov.io/gh/touchlane/gridpad_flutter/branch/master/graph/badge.svg?token=MIUHAFNRPI)](https://codecov.io/gh/touchlane/gridpad_flutter)
+
 # Usage
 
 GridPad is inspired by Row and Column APIs, which makes its use intuitive.

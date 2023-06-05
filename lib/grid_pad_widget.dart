@@ -234,7 +234,7 @@ class GridPad extends StatelessWidget {
       delegate: _GridPadDelegate(
         gridPadCells,
         _content,
-        Directionality.of(context),
+        Directionality.maybeOf(context) ?? TextDirection.ltr,
       ),
       children: <Widget>[
         for (var i = 0; i < _content.length; i++)
