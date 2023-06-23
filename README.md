@@ -238,7 +238,7 @@ parameter - **anchor**. The anchor is the point in the corner from which the spa
 The value depends on `horizontalPolicy` and `verticalPolicy` values in the `placementPolicy`
 property.
 
-![anchor](https://github.com/landarskiy/gridpad_flutter/assets/2251498/1c7e5df7-e311-4d21-b86b-e0304c9f4069)
+![anchor](https://github.com/touchlane/gridpad_flutter/assets/2251498/9ec4d525-5450-4aba-a456-3896ce553db4)
 
 ## Layout Direction
 
